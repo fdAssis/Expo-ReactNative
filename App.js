@@ -1,12 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, StatusBar, TextInput } from 'react-native';
+
+const [text, setText] = useState(''); 
 
 export default function App() {
+  
   return (
     <>
       <StatusBar barStyle='light-content' backgroundColor='#150485'/>
       <View style={styles.container}>
-        <Text style={styles.title}>Francisco de Assis</Text>
+        <TextInput style={styles.textInput} />
+        <Text style={styles.title}> {text.split(' ').map((word) => word && '🍉').join(' ')}</Text>
         <StatusBar style="auto" />
       </View>
      </> 
@@ -21,8 +25,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    color: '#FFF',
-    fontSize: 30,
-    fontWeight: 'bold'
+    padding:10,
+    fontSize:42,
   },
+  textInput: {
+    height: 40,
+    placeholder:'Type here to translate!',
+    onChangeText: text => setText(text),
+    defaultValue: text,
+  }
 });

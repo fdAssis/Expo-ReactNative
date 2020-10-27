@@ -5,27 +5,55 @@ import {
   View,
   Image,
   Text,
-  TouchableOpacity,
 } from 'react-native'
 
+import { RectButton } from 'react-native-gesture-handler';
+
+import {projectFirestore, projectStorage} from '../../../firebase';
+
 export default function Item({ item}) {
+
+
+  function handledelete() {
+
+    const storageRef = projectStorage.ref('products');
+    
+    const firestoreRef = projectFirestore.collection('products');
+
+    firestoreRef.doc(item.key).delete().then(() => {
+    }).catch(err => {
+      console.log(err);
+    })
+
+    storageRef.child(item.img.imageName).delete().then( () => {
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
   return (
     <View style={styles.listItem}>
-      <Image source={{ uri: item.url_image }} style={styles.image} />
-      <View style={{ alignItems: "center", flex: 1 }}>
-        <Text style={{ fontWeight: "bold" }}>Produto: {item.name}</Text>
-        <Text>Preço: {item.price}</Text>
+      <Image source={{uri:item.img.url}}  style={styles.image} />
+      <View style={{alignItems:"center",flex:1}}>
+        <Text style={styles.text}>Produto: {item.product}</Text>
+        <Text style={styles.text}>Preço: R${item.price}</Text>
+        <Text style={styles.text}>Quantidade: {item.quantily}</Text>
       </View>
-
-      <TouchableOpacity style={styles.touchableOpacity}>
-        <Text style={{ color: "red" }}>Editar</Text>
-      </TouchableOpacity>
-
+      <RectButton style={styles.touchableOpacity} onPress={handledelete}>
+        <Text style={{color:"#ff5555"}}>Deletar</Text>
+      </RectButton>
     </View>
   );
+
+  
 }
 
 const styles = StyleSheet.create({
+
+  text: {
+    color: "#f8f8f2",
+    fontWeight:"bold",
+  },
 
   image: {
     width: 60, 
@@ -36,7 +64,7 @@ const styles = StyleSheet.create({
   listItem: {
     margin: 10,
     padding: 10,
-    backgroundColor: "#fff123",
+    backgroundColor: "#44475a",
     width: "80%",
     flex: 1,
     alignSelf: "center",
@@ -50,6 +78,5 @@ const styles = StyleSheet.create({
     justifyContent: "center", 
     alignItems: "center" 
   },
-
 
 });

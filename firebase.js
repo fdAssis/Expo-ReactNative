@@ -1,6 +1,4 @@
 import  firebase from 'firebase';
-import { utils } from '@react-native-firebase/app'
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCM16TEh-0aptYSsbBW5wUPqfKLivuHhho",
@@ -16,5 +14,4 @@ const app = firebase.initializeApp(firebaseConfig);
 const projectStorage = firebase.storage();
 const projectFirestore = firebase.firestore();
 
-
-export {app, projectStorage, projectFirestore, utils};
+export {app, projectStorage, projectFirestore};

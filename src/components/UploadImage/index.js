@@ -1,16 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  TouchableOpacity,
+  LogBox,
   View,
   Image,
-  TouchableOpacity,
 } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'
 import { projectStorage } from '../../../firebase';
 
-
-const UploadImage = ({ setImages, images, urlImage, imageName }) => {
+const UploadImage = ({ setUrlImage, imageName, image, setImage }) => {
+  
+  LogBox.ignoreLogs(['Setting a timer']);
 
   const handleSelectImages = async () => {
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -23,15 +25,13 @@ const UploadImage = ({ setImages, images, urlImage, imageName }) => {
       allowsEditing: true,
       quality: 1,
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
     })
 
     if (result.cancelled) return;
 
-    const { uri: image } = result;
-    setImages([...images, image]);
+    const {uri: imageUri} = result;
+    setImage(imageUri);
 
-    // = = = = = = = = = //
     const resultUri = await fetch(result.uri);
     const blob = await resultUri.blob();
 
@@ -46,24 +46,20 @@ const UploadImage = ({ setImages, images, urlImage, imageName }) => {
         console.log(err);
       }, async () => {
         const downloadUrl = await storageRef.getDownloadURL();
-        urlImage(downloadUrl);
+        setUrlImage(downloadUrl);
       }
     );
-
   }
 
 return (
   <>
     <View style={styles.uploadedImageContainer}>
-      {images.map((image) => {
-        return (
-          <Image
-            key={image}
-            style={styles.uploadedImage}
-            source={{ uri: image }}
-          />
-        );
-      })}
+      {image &&
+        <Image
+          style={styles.uploadedImage}
+          source={{ uri: image }}
+        />
+      }
     </View>
 
     <TouchableOpacity style={styles.imagesInput} onPress={handleSelectImages}>

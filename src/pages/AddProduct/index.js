@@ -21,8 +21,8 @@ export default function OrphanageData() {
   const [price, setPrice] = useState('');
   const [quantily, setQuantily] = useState('');
   const [url, setUrl] = useState('');
-  const [images, setImages] = useState([]);
   const [imageName, setImageName] = useState('');
+  const [image, setImage] = useState(null);
 
 
   async function handleAddProduct() {
@@ -41,12 +41,12 @@ export default function OrphanageData() {
     .add(productData).then(() => {
     });
     setImageName('');
-    setImages([]);
     setPrice('');
     setProduct('');
     setProduct('');
     setQuantily('');
     setUrl('');
+    setImage(null);
   }
 
   const navigation = useNavigation();
@@ -67,6 +67,14 @@ export default function OrphanageData() {
         onChangeText={setProduct}
       />
 
+      <Text style={styles.label}>Foto</Text>
+      <UploadImage
+        setUrlImage={setUrl}
+        imageName={setImageName}
+        image={image}
+        setImage={setImage}
+      />
+
       <Text style={styles.label}>Preço</Text>
       <TextInput
         keyboardType="number-pad"
@@ -84,14 +92,6 @@ export default function OrphanageData() {
         value={quantily}
         onChangeText={setQuantily}
       />    
-
-      <Text style={styles.label}>Foto</Text>
-      <UploadImage
-        images={images}
-        setImages={setImages}
-        urlImage={setUrl}
-        imageName={setImageName}
-      />
 
       <RectButton style={styles.nextButton} onPress={handleAddProduct}>
         <Text style={styles.nextButtonText}>Cadastrar</Text>

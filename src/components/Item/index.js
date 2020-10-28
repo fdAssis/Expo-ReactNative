@@ -11,7 +11,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import {projectFirestore, projectStorage} from '../../../firebase';
 
-export default function Item({ item}) {
+export default function Item({ item }) {
 
 
   function handledelete() {
@@ -36,8 +36,8 @@ export default function Item({ item}) {
       <Image source={{uri:item.img.url}}  style={styles.image} />
       <View style={{alignItems:"center",flex:1}}>
         <Text style={styles.text}>Produto: {item.product}</Text>
-        <Text style={styles.text}>Preço: R${item.price}</Text>
         <Text style={styles.text}>Quantidade: {item.quantily}</Text>
+        <Text style={styles.text}>Preço: R$ {item.price}</Text>
       </View>
       <RectButton style={styles.touchableOpacity} onPress={handledelete}>
         <Text style={{color:"#ff5555"}}>Deletar</Text>

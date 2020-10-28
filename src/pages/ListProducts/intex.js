@@ -55,7 +55,7 @@ const ListProducts = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lista produtos</Text>
+      <Text style={styles.title}>Lista de produtos</Text>
       <FlatList
         data={products}
         renderItem={renderItem}

@@ -4,6 +4,7 @@ import {
   ScrollView, 
   Text, 
   TextInput,
+  StatusBar,
 } from 'react-native';
 
 import { RectButton } from 'react-native-gesture-handler';
@@ -56,7 +57,8 @@ export default function OrphanageData() {
 
 
   return (
-    
+    <>
+    <StatusBar barStyle="light-content"/> 
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 24 }}>
       <Text style={styles.title}>Adicionar produto</Text>
 
@@ -101,6 +103,7 @@ export default function OrphanageData() {
         <Text style={styles.nextButtonText}>Lista de produtos</Text>
       </RectButton>
     </ScrollView>
+    </>
   )
 }
 

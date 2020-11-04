@@ -8,7 +8,8 @@ import {
 
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'
-import { projectStorage } from '../../../firebase';
+
+import database from '../../Database';
 
 const UploadImage = ({ setUrlImage, imageName, image, setImage }) => {
   
@@ -35,20 +36,7 @@ const UploadImage = ({ setUrlImage, imageName, image, setImage }) => {
     const resultUri = await fetch(result.uri);
     const blob = await resultUri.blob();
 
-    const imageFileName = `IMG_${Math.random(4000)}`;
-
-    const storageRef = projectStorage.ref('products').child(imageFileName)
-
-    return storageRef.put(blob).on('state_changed', upload => {
-        //console.log(upload.metadata.name())
-        imageName(imageFileName);
-      }, err => {
-        console.log(err);
-      }, async () => {
-        const downloadUrl = await storageRef.getDownloadURL();
-        setUrlImage(downloadUrl);
-      }
-    );
+    database.addImage(blob, imageName, setUrlImage);
   }
 
 return (

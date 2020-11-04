@@ -11,7 +11,8 @@ import AddProduct from './pages/AddProduct/index';
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Navigator screenOptions={{headerShown:false}}>
+      <Navigator 
+      screenOptions={{headerShown:false}}>
       
         <Screen 
           name="AddProduct"

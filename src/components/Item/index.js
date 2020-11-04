@@ -9,26 +9,13 @@ import {
 
 import { RectButton } from 'react-native-gesture-handler';
 
-import {projectFirestore, projectStorage} from '../../../firebase';
+import database from '../../Database';
 
 export default function Item({ item }) {
 
 
   function handledelete() {
-
-    const storageRef = projectStorage.ref('products');
-    
-    const firestoreRef = projectFirestore.collection('products');
-
-    firestoreRef.doc(item.key).delete().then(() => {
-    }).catch(err => {
-      console.log(err);
-    })
-
-    storageRef.child(item.img.imageName).delete().then( () => {
-    }).catch(err => {
-      console.log(err);
-    })
+    database.delete(item);
   }
 
   return (
@@ -44,7 +31,6 @@ export default function Item({ item }) {
       </RectButton>
     </View>
   );
-
   
 }
 

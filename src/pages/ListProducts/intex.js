@@ -1,49 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  FlatList,
-  ActivityIndicator,
-  Text,
-} from 'react-native';
+import { View, FlatList, Text, StatusBar} from 'react-native';
+/**=================================================== */
 
 //Components
 import Item from '../../components/Item';
+/**=================================================== */
 
 //Styles
 import styles from './style';
+/**=================================================== */
 
-import { projectFirestore } from '../../../firebase';
+//Database (Firebase)
+import database from '../../Database'
+/**=================================================== */
 
 const ListProducts = () => {
-
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts]  = useState([]);
-
+  const [products, setProducts] = useState([]);
   useEffect(() => {
-    const product = 
-      projectFirestore
-      .collection('products')
-      .onSnapshot(querySnapshot => {
 
-        querySnapshot.forEach(documentSnapshot => {
-          products.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
+    database.index(setProducts);
 
-        setProducts(products);
-        setLoading(false);
-      });
+  },[])
 
-    return () => product();
-  },[]);
-
-  if(loading){
-    return <ActivityIndicator />
-  }
-
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
 
     return (
       <Item
@@ -54,6 +33,8 @@ const ListProducts = () => {
   };
 
   return (
+    <>
+    <StatusBar barStyle={"light-content"} />
     <View style={styles.container}>
       <Text style={styles.title}>Lista de produtos</Text>
       <FlatList
@@ -62,6 +43,7 @@ const ListProducts = () => {
         keyExtractor={products.key}
       />
     </View>
+    </>
   );
 }
 
